@@ -16,62 +16,62 @@ namespace GoeaLabs.Bedrock
         /// <summary>
         /// Minimum possible value for an 128 bit unsigned <see cref="BigInteger"/>.
         /// </summary>
-        public static readonly BigInteger BigUInt128Min = 0;
+        public static BigInteger BigUInt128Min { get; } = 0;
 
         /// <summary>
         /// Maximum possible value for an 128 bit unsigned <see cref="BigInteger"/>.
         /// </summary>
-        public static readonly BigInteger BigUInt128Max = BigInteger.Pow(2, 128) - 1;
+        public static BigInteger BigUInt128Max { get; } = BigInteger.Pow(2, 128) - 1;
 
         /// <summary>
         /// Minimum possible value for an 128 bit signed <see cref="BigInteger"/>.
         /// </summary>
-        public static readonly BigInteger BigInt128Min = -BigInteger.Pow(2, 127);
+        public static BigInteger BigInt128Min { get; } = -BigInteger.Pow(2, 127);
 
         /// <summary>
         /// Maximum possible value for an 128 bit signed <see cref="BigInteger"/>.
         /// </summary>
-        public static readonly BigInteger BigInt128Max = BigInteger.Pow(2, 127) - 1;
+        public static BigInteger BigInt128Max { get; } = BigInteger.Pow(2, 127) - 1;
 
         /// <summary>
         /// Minimum possible value for an 256 bit unsigned <see cref="BigInteger"/>.
         /// </summary>
-        public static readonly BigInteger BigUInt256Min = 0;
+        public static BigInteger BigUInt256Min { get; } = 0;
 
         /// <summary>
         /// Maximum possible value for an 256 bit unsigned <see cref="BigInteger"/>.
         /// </summary>
-        public static readonly BigInteger BigUInt256Max = BigInteger.Pow(2, 256) - 1;
+        public static BigInteger BigUInt256Max { get; } = BigInteger.Pow(2, 256) - 1;
 
         /// <summary>
         /// Minimum possible value for an 256 bit signed <see cref="BigInteger"/>.
         /// </summary>
-        public static readonly BigInteger BigInt256Min = -BigInteger.Pow(2, 255);
+        public static BigInteger BigInt256Min { get; } = -BigInteger.Pow(2, 255);
 
         /// <summary>
         /// Maximum possible value for an 256 bit signed <see cref="BigInteger"/>.
         /// </summary>
-        public static readonly BigInteger BigInt256Max = BigInteger.Pow(2, 255) - 1;
+        public static BigInteger BigInt256Max { get; } = BigInteger.Pow(2, 255) - 1;
 
         /// <summary>
         /// Minimum possible value for an 512 bit unsigned <see cref="BigInteger"/>.
         /// </summary>
-        public static readonly BigInteger BigUInt512Min = 0;
+        public static BigInteger BigUInt512Min { get; } = 0;
 
         /// <summary>
         /// Maximum possible value for an 512 bit unsigned <see cref="BigInteger"/>.
         /// </summary>
-        public static readonly BigInteger BigUInt512Max = BigInteger.Pow(2, 512) - 1;
+        public static BigInteger BigUInt512Max { get; } = BigInteger.Pow(2, 512) - 1;
 
         /// <summary>
         /// Minimum possible value for an 512 bit signed <see cref="BigInteger"/>.
         /// </summary>
-        public static readonly BigInteger BigInt512Min = -BigInteger.Pow(2, 511);
+        public static BigInteger BigInt512Min { get; } = -BigInteger.Pow(2, 511);
 
         /// <summary>
         /// Maximum possible value for an 512 bit signed <see cref="BigInteger"/>.
         /// </summary>
-        public static readonly BigInteger BigInt512Max = BigInteger.Pow(2, 511) - 1;
+        public static BigInteger BigInt512Max { get; } = BigInteger.Pow(2, 511) - 1;
 
 
         /// <summary>

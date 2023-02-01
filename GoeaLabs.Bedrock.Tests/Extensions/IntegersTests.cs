@@ -6,6 +6,7 @@ namespace GoeaLabs.Bedrock.Tests.Extensions
     [TestClass]
     public class IntegersTests
     {
+        [TestMethod]
         [DataRow(ulong.MaxValue, ulong.MinValue, ulong.MaxValue, 10UL, 20UL)]
         public void ScaleUnsigned64_behaves_correctly(ulong srcN, ulong minN, ulong maxN, ulong minR, ulong maxR)
         {
