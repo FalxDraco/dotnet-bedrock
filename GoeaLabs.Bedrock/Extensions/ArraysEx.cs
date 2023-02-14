@@ -14,6 +14,7 @@
    limitations under the License.
  */
 
+using CommunityToolkit.Diagnostics;
 
 using HWRNG = System.Security.Cryptography.RandomNumberGenerator;
 
@@ -45,11 +46,10 @@ namespace GoeaLabs.Bedrock.Extensions
         /// <returns>A reference to itself.</returns>
         public static uint[] FillRandom(this uint[] self)
         {
-            var buff = new byte[self.Length * sizeof(uint)];
+            var size = self.Length * sizeof(uint);
+            var buff = new byte[size];
 
-            buff.FillRandom();
-
-            Buffer.BlockCopy(buff, 0, self, 0, buff.Length);
+            buff.FillRandom().AsSpan().Merge(self);
 
             return self;
         }
@@ -121,74 +121,6 @@ namespace GoeaLabs.Bedrock.Extensions
                 if (item != default) return false;
 
             return true;
-        }
-
-        /// <summary>
-        /// Merges the elements of this array into 32 bit unsigned integers.
-        /// </summary>
-        /// <remarks>
-        /// Can handle arrays of arbitrary lengths.
-        /// </remarks>
-        /// <param name="self">The array to operate on.</param>
-        /// <returns>A new array of 32 bit unsigned integers.</returns>
-        public static uint[] Merge32(this byte[] self)
-        {
-            int elements = self.Length / sizeof(uint);
-            int reminder = self.Length % sizeof(uint);
-
-            if (reminder > 0)
-                ++elements;
-
-            var output = new uint[elements];
-
-            Buffer.BlockCopy(self, 0, output, 0, self.Length);
-
-            return output;
-        }
-
-        /// <summary>
-        /// Merges the elements of this array into 64 bit unsigned integers.
-        /// </summary>
-        /// <remarks>
-        /// Can handle arrays of arbitrary sizes.
-        /// </remarks>
-        /// <param name="self">The array to operate on.</param>
-        /// <returns>A new array of 64 bit unsigned integers.</returns>
-        public static ulong[] Merge64(this byte[] self)
-        {
-            int elements = self.Length / sizeof(ulong);
-            int reminder = self.Length % sizeof(ulong);
-
-            if (reminder > 0)
-                ++elements;
-
-            var output = new ulong[elements];
-
-            Buffer.BlockCopy(self, 0, output, 0, self.Length);
-
-            return output;
-        }
-
-        /// <summary>
-        /// Performs an element-by-element <b>XOR</b> between this array and another array.
-        /// </summary>
-        /// <remarks>
-        /// Throws if <b>this array</b> has more elements than the other array.
-        /// </remarks>
-        /// <param name="self">The array to operate on.</param>
-        /// <param name="that">The array to XOR with.</param>
-        /// <returns>A reference to itself.</returns>
-        /// <exception cref="ArgumentException"></exception>
-        public static byte[] XOR(this byte[] self, byte[] that)
-        {
-            if (self.Length < that.Length)
-                throw new ArgumentException(
-                    $"Must be minimum {self.Length} length.", nameof(that));
-
-            for (int i = 0; i < self.Length; i++)
-                self[i] = (byte)(self[i] ^ that[i]);
-
-            return self;
         }
     }
 }
