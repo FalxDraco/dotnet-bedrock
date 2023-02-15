@@ -14,6 +14,8 @@
    limitations under the License.
  */
 
+using CommunityToolkit.Diagnostics;
+
 using System.Numerics;
 
 namespace GoeaLabs.Bedrock
@@ -89,7 +91,7 @@ namespace GoeaLabs.Bedrock
         /// Applies min-max scaling.
         /// </summary>
         /// <remarks>
-        /// Throws <see cref="ArgumentException"/>:
+        /// Throws <see cref="ArgumentOutOfRangeException"/>:
         /// <list type="bullet">
         /// <item>If <paramref name="minN"/> is not less than or equal to <paramref name="minR"/>.</item>
         /// <item>If <paramref name="maxN"/> is not greater than or equal to <paramref name="maxR"/>.</item>
@@ -104,12 +106,9 @@ namespace GoeaLabs.Bedrock
         /// <returns>The number scaled in the given range.</returns>
         public static ulong ScaleUnsigned64(ulong srcN, ulong minN, ulong maxN, ulong minR, ulong maxR)
         {
-            if (!(minN <= minR))
-                throw new ArgumentException($"{nameof(minN)} must be less than or equal {nameof(minR)}");
-            if (!(maxN >= maxR))
-                throw new ArgumentException($"{nameof(maxN)} must be greater than or equal {nameof(maxR)}");
-            if (!(maxR > minR))
-                throw new ArgumentException($"{nameof(maxR)} must be greater than {nameof(minR)}");
+            Guard.IsLessThanOrEqualTo(minN, minR);
+            Guard.IsGreaterThanOrEqualTo(maxN, maxR);
+            Guard.IsGreaterThan(maxR, minR);
 
             if (srcN >= minR && srcN <= maxR) return srcN;
 
@@ -120,7 +119,7 @@ namespace GoeaLabs.Bedrock
         /// Applies min-max scaling.
         /// </summary>
         /// <remarks>
-        /// Throws <see cref="ArgumentException"/>:
+        /// Throws <see cref="ArgumentOutOfRangeException"/>:
         /// <list type="bullet">
         /// <item>If <paramref name="minN"/> is not less than or equal to <paramref name="minR"/>.</item>
         /// <item>If <paramref name="maxN"/> is not greater than or equal to <paramref name="maxR"/>.</item>
@@ -139,12 +138,9 @@ namespace GoeaLabs.Bedrock
                 minR >= int.MinValue && minR <= int.MaxValue &&
                 maxR >= int.MinValue && maxR <= int.MinValue)
             {
-                if (!(minN <= minR))
-                    throw new ArgumentException($"{nameof(minN)} must be less than or equal to {nameof(minR)}");
-                if (!(maxN >= maxR))
-                    throw new ArgumentException($"{nameof(maxN)} must be greater than or equal to {nameof(maxR)}");
-                if (!(maxR > minR))
-                    throw new ArgumentException($"{nameof(maxR)} must be greater than {nameof(minR)}");
+                Guard.IsLessThanOrEqualTo(minN, minR);
+                Guard.IsGreaterThanOrEqualTo(maxN, maxR);
+                Guard.IsGreaterThan(maxR, minR);
 
                 if (srcN >= minR && srcN <= maxR) return srcN;
 
@@ -162,7 +158,7 @@ namespace GoeaLabs.Bedrock
         /// Applies min-max scaling.
         /// </summary>
         /// <remarks>
-        /// Throws <see cref="ArgumentException"/>:
+        /// Throws <see cref="ArgumentOutOfRangeException"/>:
         /// <list type="bullet">
         /// <item>If <paramref name="minN"/> is not less than or equal to <paramref name="minR"/>.</item>
         /// <item>If <paramref name="maxN"/> is not greater than or equal to <paramref name="maxR"/>.</item>
@@ -177,12 +173,9 @@ namespace GoeaLabs.Bedrock
         /// <returns>The number scaled in the given range.</returns>
         public static BigInteger ScaleBigInt(BigInteger srcN, BigInteger minN, BigInteger maxN, BigInteger minR, BigInteger maxR)
         {
-            if (!(minN <= minR))
-                throw new ArgumentException($"{nameof(minN)} must be less than or equal to {nameof(minR)}");
-            if (!(maxN >= maxR))
-                throw new ArgumentException($"{nameof(maxN)} must be greater than or equal to {nameof(maxR)}");
-            if (!(maxR > minR))
-                throw new ArgumentException($"{nameof(maxR)} must be greater than {nameof(minR)}");
+            Guard.IsLessThanOrEqualTo(minN, minR);
+            Guard.IsGreaterThanOrEqualTo(maxN, maxR);
+            Guard.IsGreaterThan(maxR, minR);
 
             if (srcN >= minR && srcN <= maxR) return srcN;
 
@@ -195,7 +188,7 @@ namespace GoeaLabs.Bedrock
         /// Applies min-max scaling.
         /// </summary>
         /// <remarks>
-        /// Throws <see cref="ArgumentException"/>:
+        /// Throws <see cref="ArgumentOutOfRangeException"/>:
         /// <list type="bullet">
         /// <item>If <paramref name="minN"/> is not less than or equal to <paramref name="minR"/>.</item>
         /// <item>If <paramref name="maxN"/> is not greater than or equal to <paramref name="maxR"/>.</item>
@@ -210,12 +203,9 @@ namespace GoeaLabs.Bedrock
         /// <returns>The number scaled in the given range.</returns>
         public static UInt128 ScaleUnsigned128(UInt128 srcN, UInt128 minN, UInt128 maxN, UInt128 minR, UInt128 maxR)
         {
-            if (!(minN <= minR))
-                throw new ArgumentException($"{nameof(minN)} must be less than or equal to {nameof(minR)}");
-            if (!(maxN >= maxR))
-                throw new ArgumentException($"{nameof(maxN)} must be greater than or equal to {nameof(maxR)}");
-            if (!(maxR > minR))
-                throw new ArgumentException($"{nameof(maxR)} must be greater than {nameof(minR)}");
+            Guard.IsLessThanOrEqualTo(minN, minR);
+            Guard.IsGreaterThanOrEqualTo(maxN, maxR);
+            Guard.IsGreaterThan(maxR, minR);
 
             if (srcN >= minR && srcN <= maxR) return srcN;
 
@@ -226,7 +216,7 @@ namespace GoeaLabs.Bedrock
         /// Applies min-max scaling.
         /// </summary>
         /// <remarks>
-        /// Throws <see cref="ArgumentException"/>:
+        /// Throws <see cref="ArgumentOutOfRangeException"/>:
         /// <list type="bullet">
         /// <item>If <paramref name="minN"/> is not less than or equal to <paramref name="minR"/>.</item>
         /// <item>If <paramref name="maxN"/> is not greater than or equal to <paramref name="maxR"/>.</item>
@@ -245,12 +235,9 @@ namespace GoeaLabs.Bedrock
                 minR >= long.MinValue && minR <= long.MaxValue &&
                 maxR >= long.MinValue && maxR <= long.MinValue)
             {
-                if (!(minN <= minR))
-                    throw new ArgumentException($"{nameof(minN)} must be less than or equal to {nameof(minR)}");
-                if (!(maxN >= maxR))
-                    throw new ArgumentException($"{nameof(maxN)} must be greater than or equal to {nameof(maxR)}");
-                if (!(maxR > minR))
-                    throw new ArgumentException($"{nameof(maxR)} must be greater than {nameof(minR)}");
+                Guard.IsLessThanOrEqualTo(minN, minR);
+                Guard.IsGreaterThanOrEqualTo(maxN, maxR);
+                Guard.IsGreaterThan(maxR, minR);
 
                 if (srcN >= minR && srcN <= maxR) return srcN;
 
