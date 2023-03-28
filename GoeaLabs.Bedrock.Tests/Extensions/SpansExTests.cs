@@ -17,8 +17,10 @@
 
 using GoeaLabs.Bedrock.Extensions;
 
+
 namespace GoeaLabs.Bedrock.Tests.Extensions
 {
+
     [TestClass]
     public class SpansExTests
     {
@@ -28,13 +30,10 @@ namespace GoeaLabs.Bedrock.Tests.Extensions
         [DataRow(new uint[] { 0xFFFFFFFF, 0x0000FFFF }, new byte[] { 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0xFF, 0xFF })]
         public void Split_uints_to_bytes_behaves_correctly(uint[] data, byte[] okay)
         {
-            Span<uint> dataS = data;
-            Span<byte> okayS = okay;
+            Span<byte> test = stackalloc byte[data.Length * sizeof(uint)];
+            new Span<uint>(data).Split(test);
 
-            Span<byte> testS = stackalloc byte[dataS.Length * sizeof(uint)];
-            dataS.Split(testS);
-
-            Assert.IsTrue(testS.ToArray().IsEqual(okay));
+            Assert.IsTrue(test.SequenceEqual(okay));
         }
 
         [TestMethod]
@@ -65,18 +64,15 @@ namespace GoeaLabs.Bedrock.Tests.Extensions
         [DataRow(new byte[] { 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0xFF, 0xFF }, new uint[] { 0xFFFFFFFF, 0x0000FFFF })]
         public void Merge_bytes_to_uints_behaves_correctly(byte[] data, uint[] okay)
         {
-            Span<byte> dataS = data;
-            Span<uint> okayS = okay;
-
-            Span<uint> testS = stackalloc uint[dataS.Length / sizeof(uint)];
-            dataS.Merge(testS);
-
-            Assert.IsTrue(testS.ToArray().IsEqual(okay));
+            Span<uint> test = stackalloc uint[data.Length / sizeof(uint)];
+            new Span<byte>(data).Merge(test);
+            
+            Assert.IsTrue(test.SequenceEqual(okay)); 
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void Merge_bytes_to_uints_throws_ArgumentOutOfRangeException_if_input_not_multiple_of_sizeof_uint()
+        public void Merge_bytes_to_uints_throws_ArgumentOutOfRangeException_if_incorrect_input_length()
         {
             Span<byte> bytes = stackalloc byte[7];
             Span<uint> uints = stackalloc uint[2];
@@ -86,13 +82,98 @@ namespace GoeaLabs.Bedrock.Tests.Extensions
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void Merge_bytes_to_uints_throws_ArgumentOutOfRangeException_if_output_too_small()
+        public void Merge_bytes_to_uints_throws_ArgumentOutOfRangeException_if_incorrect_output_length()
         {
             Span<byte> bytes = stackalloc byte[8];
             Span<uint> uints = stackalloc uint[1];
 
             bytes.Merge(uints);
         }
+
+        [TestMethod]
+        [DataRow(new uint[] { 0xFFFFFFFF, 0xFFFFFFFF }, new ulong[] { 0xFFFFFFFFFFFFFFFF })]
+        [DataRow(new uint[] { 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFE }, new ulong[] { 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFE })]
+        public void Merge_uints_to_ulongs_behaves_correctly(uint[] data, ulong[] okay)
+        {
+            Span<uint> dataS = data;
+            Span<ulong> okayS = okay;
+
+            Span<ulong> testS = stackalloc ulong[okay.Length];
+            dataS.Merge(testS);
+
+            Assert.IsTrue(testS.SequenceEqual(okay));
+        }
+
+        [TestMethod]
+        [DataRow(1, 1)]
+        [DataRow(3, 1)]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void Merge_uints_to_ulongs_throws_ArgumentOutOfRangeException_if_incorrect_input_length(int szSelf, int szThat)
+        {
+            Span<uint> span32 = stackalloc uint[szSelf];
+            Span<ulong> span64 = stackalloc ulong[szThat];
+
+            span32.Merge(span64);
+        }
+
+        [TestMethod]
+        [DataRow(4, 1)]
+        [DataRow(8, 3)]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void Merge_uints_to_ulongs_throws_ArgumentOutOfRangeException_if_incorrect_output_length(int szSelf, int szThat)
+        {
+            Span<uint> span32 = stackalloc uint[szSelf];
+            Span<ulong> span64 = stackalloc ulong[szThat];
+
+            span32.Merge(span64);
+        }
+
+        [TestMethod]
+        [DataRow(new uint[] { 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF })]
+        [DataRow(new uint[] { 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFE })]
+        public void Merge_uints_to_uint128s_behaves_correctly(uint[] data)
+        {
+            Span<UInt128> test = stackalloc UInt128[data.Length / 4];
+            new Span<uint>(data).Merge(test);
+
+            if (data.Length == 4)
+            {
+                Assert.IsTrue(test.SequenceEqual(new UInt128[] { UInt128.MaxValue }));
+            } 
+            else if (data.Length == 8) 
+            {
+                Assert.IsTrue(test.SequenceEqual(new UInt128[] { UInt128.MaxValue, UInt128.MaxValue - 1 }));
+            }
+            else
+            {
+                throw new ArgumentException("Length must be either 4 or 8.", nameof(data));
+            }
+        }
+
+        [TestMethod]
+        [DataRow(1, 1)]
+        [DataRow(5, 1)]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void Merge_uints_to_uint128s_throws_ArgumentOutOfRangeException_if_incorrect_input_length(int szSelf, int szThat)
+        {
+            Span<uint> span32 = stackalloc uint[szSelf];
+            Span<UInt128> span128 = stackalloc UInt128[szThat];
+
+            span32.Merge(span128);
+        }
+
+        [TestMethod]
+        [DataRow(8, 1)]
+        [DataRow(16, 3)]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void Merge_uints_to_uint128s_throws_ArgumentOutOfRangeException_if_incorrect_output_length(int szSelf, int szThat)
+        {
+            Span<uint> span32 = stackalloc uint[szSelf];
+            Span<UInt128> span128 = stackalloc UInt128[szThat];
+
+            span32.Merge(span128);
+        }
+
 
         [TestMethod]
         [DataRow(new byte[] { 0, 1 }, new byte[] { 0, 1, 2 })]

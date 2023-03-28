@@ -53,6 +53,16 @@ void Merge(this Span<byte>, Span<uint>);
 ```
 
 ```csharp
+void Merge(this Span<uint>, Span<ulong>);
+```
+
+```csharp
+#if NET7_0_OR_GREATER
+void Merge(this Span<uint>, Span<UInt128>);
+#endif
+```
+
+```csharp
 void XOR(this Span<byte>, Span<byte>);
 ```
 

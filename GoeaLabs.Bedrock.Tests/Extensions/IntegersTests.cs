@@ -17,8 +17,10 @@
 
 using System.Numerics;
 
+
 namespace GoeaLabs.Bedrock.Tests.Extensions
 {
+
     [TestClass]
     public class IntegersTests
     {
