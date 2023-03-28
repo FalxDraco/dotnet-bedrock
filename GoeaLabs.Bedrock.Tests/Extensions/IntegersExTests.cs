@@ -14,10 +14,13 @@
    limitations under the License.
  */
 
+
 using GoeaLabs.Bedrock.Extensions;
+
 
 namespace GoeaLabs.Bedrock.Tests.Extensions
 {
+
     [TestClass]
     public class IntegersExTests
     {

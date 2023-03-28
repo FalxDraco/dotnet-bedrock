@@ -49,8 +49,12 @@ namespace GoeaLabs.Bedrock.Extensions
         /// <remarks>
         /// Throws <see cref="ArgumentOutOfRangeException"/>:
         /// <list type="bullet">
-        /// <item>If the length of <paramref name="self"/> is greater than <c>int.MaxValue / sizeof(uint)</c></item>
-        /// <item>If the length of <paramref name="that"/> is less than <c>self.Length * sizeof(uint)</c>.</item>
+        /// <item>
+        /// If the length of <paramref name="self"/> is greater than <c>int.MaxValue / sizeof(uint)</c>
+        /// </item>
+        /// <item>
+        /// If the length of <paramref name="that"/> is less than <c>self.Length * sizeof(uint)</c>.
+        /// </item>
         /// </list>
         /// </remarks>
         /// <param name="self">The span to split.</param>
@@ -70,12 +74,12 @@ namespace GoeaLabs.Bedrock.Extensions
                 n16a.Halve(out byte n8a, out byte n8b);
                 n16b.Halve(out byte n8c, out byte n8d);
 
-                var pos = i * sizeof(uint);
+                var spot = i * sizeof(uint);
 
-                that[pos++] = n8a;
-                that[pos++] = n8b;
-                that[pos++] = n8c;
-                that[pos++] = n8d;
+                that[spot++] = n8a;
+                that[spot++] = n8b;
+                that[spot++] = n8c;
+                that[spot++] = n8d;
             }
         }
 
@@ -85,31 +89,111 @@ namespace GoeaLabs.Bedrock.Extensions
         /// <remarks>
         /// Throws <see cref="ArgumentOutOfRangeException"/>:
         /// <list type="bullet">
-        /// <item>If the length of <paramref name="self"/> is not equal to or multiple of <c>sizeof(uint)</c>.</item>
-        /// <item>If the length of <paramref name="that"/> is less than <c>self.Length / sizeof(uint)</c>.</item>
+        /// <item>
+        /// If the length of <paramref name="self"/> is a multiple of <c>sizeof(uint)</c>.
+        /// </item>
+        /// <item>
+        /// If the length of <paramref name="that"/> is less than <c>self.Length / sizeof(uint)</c>.
+        /// </item>
         /// </list>
         /// </remarks>
         /// <param name="self">The span to split.</param>
         /// <param name="that">The span to write to.</param>
         public static void Merge(this Span<byte> self, Span<uint> that)
-        {         
-            if (self.Length % sizeof(uint) > 0)
-                ThrowHelper.ThrowArgumentOutOfRangeException(
-                    nameof(self), $"Length must be a multiple of {sizeof(uint)}");
+        {
+            var quot = sizeof(uint);
 
-            var thatMin = self.Length / sizeof(uint);
-            Guard.IsGreaterThanOrEqualTo(that.Length, thatMin);
+            if (self.Length % quot > 0)
+                ThrowHelper.ThrowArgumentOutOfRangeException(
+                    nameof(self), $"Length must be a multiple of {quot}");
+
+            Guard.IsGreaterThanOrEqualTo(that.Length, self.Length / quot);
 
             for (int i = 0; i < that.Length; i++)
             {
-                var pos = i * sizeof(uint);
+                var spot = i * quot;
 
-                var n16a = self[pos].Merge(self[++pos]);
-                var n16b = self[++pos].Merge(self[++pos]);
+                var n16a = self[spot].Merge(self[++spot]);
+                var n16b = self[++spot].Merge(self[++spot]);
 
                 that[i] = n16a.Merge(n16b);               
             }
         }
+
+        /// <summary>
+        /// Writes the content of the Span to a Span of <see cref="ulong"/>(s);
+        /// </summary>
+        /// <remarks>
+        /// Throws <see cref="ArgumentOutOfRangeException"/>:
+        /// <list type="bullet">
+        /// <item>
+        /// If the length of <paramref name="self"/> is not a multiple of <c>sizeof(ulong) / sizeof(uint)</c>.
+        /// </item>
+        /// <item>
+        /// If the length of <paramref name="that"/> is less than <c>self.Length / (sizeof(ulong) / sizeof(uint))</c>.
+        /// </item>
+        /// </list>
+        /// </remarks>
+        /// <param name="self">The span to split.</param>
+        /// <param name="that">The span to write to.</param>
+        public static void Merge(this Span<uint> self, Span<ulong> that)
+        {
+            var quot = sizeof(ulong) / sizeof(uint);
+
+            if (self.Length % quot > 0)
+                ThrowHelper.ThrowArgumentOutOfRangeException(
+                    nameof(self), $"Length must be a multiple of {quot}");
+
+            Guard.IsGreaterThanOrEqualTo(that.Length, self.Length / quot);
+
+            for (int i = 0; i < that.Length; i++)
+            {
+                var spot = i * quot;
+
+                that[i] = self[spot].Merge(self[++spot]);
+            }
+        }
+
+#if NET7_0_OR_GREATER
+
+        /// <summary>
+        /// Writes the content of the Span to a Span of <see cref="UInt128"/>(s);
+        /// </summary>
+        /// <remarks>
+        /// Throws <see cref="ArgumentOutOfRangeException"/>:
+        /// <list type="bullet">
+        /// <item>
+        /// If the length of <paramref name="self"/> is not a multiple of <c>16 / sizeof(uint)</c>.
+        /// </item>
+        /// <item>
+        /// If the length of <paramref name="that"/> is less than <c>self.Length / (16 / sizeof(uint))</c>.
+        /// </item>
+        /// </list>
+        /// </remarks>
+        /// <param name="self">The span to split.</param>
+        /// <param name="that">The span to write to.</param>
+        public static void Merge(this Span<uint> self, Span<UInt128> that)
+        {
+            var quot = 16 / sizeof(uint);
+
+            if (self.Length % quot > 0)
+                ThrowHelper.ThrowArgumentOutOfRangeException(
+                    nameof(self), $"Length must be a multiple of {quot}");
+
+            Guard.IsGreaterThanOrEqualTo(that.Length, self.Length / quot);
+
+            for (int i = 0; i < that.Length; i++)
+            {
+                var spot = i * quot;
+
+                var n64a = self[spot].Merge(self[++spot]);
+                var n64b = self[++spot].Merge(self[++spot]);
+
+                that[i] = n64a.Merge(n64b);
+            }
+        }
+
+#endif
 
         /// <summary>
         /// <b>XOR</b>s each element of <paramref name="self"/> with the element at the same 
@@ -118,7 +202,9 @@ namespace GoeaLabs.Bedrock.Extensions
         /// <remarks>
         /// Throws <see cref="ArgumentOutOfRangeException"/>:
         /// <list type="bullet">
-        /// <item>If <paramref name="self"/> has more elements than <paramref name="that"/>.</item>
+        /// <item>
+        /// If <paramref name="self"/> has more elements than <paramref name="that"/>.
+        /// </item>
         /// </list>
         /// </remarks>
         /// <param name="self">The array to operate on.</param>
