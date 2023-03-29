@@ -19,6 +19,7 @@ using CommunityToolkit.Diagnostics;
 
 namespace GoeaLabs.Bedrock.Extensions
 {
+
     /// <summary>
     /// Extensions for integer spans.
     /// </summary>
@@ -44,17 +45,13 @@ namespace GoeaLabs.Bedrock.Extensions
         }
 
         /// <summary>
-        /// Writes the content of the Span to a Span of <see cref="byte"/>(s);
+        /// Writes the content of a span of <see cref="uint"/>(s) to a span of <see cref="byte"/>(s).
         /// </summary>
         /// <remarks>
-        /// Throws <see cref="ArgumentOutOfRangeException"/>:
+        /// Throws <see cref="ArgumentException"/>:
         /// <list type="bullet">
-        /// <item>
-        /// If the length of <paramref name="self"/> is greater than <c>int.MaxValue / sizeof(uint)</c>
-        /// </item>
-        /// <item>
-        /// If the length of <paramref name="that"/> is less than <c>self.Length * sizeof(uint)</c>.
-        /// </item>
+        /// <item>If the length of <paramref name="self"/> is greater than <c>int.MaxValue / sizeof(uint)</c>.</item>
+        /// <item>If the length of <paramref name="that"/> is less than <c>self.Length * sizeof(uint)</c>.</item>
         /// </list>
         /// </remarks>
         /// <param name="self">The span to split.</param>
@@ -62,10 +59,10 @@ namespace GoeaLabs.Bedrock.Extensions
         public static void Split(this Span<uint> self, Span<byte> that)
         {
             var selfMax = int.MaxValue / sizeof(uint);
-            Guard.IsLessThanOrEqualTo(self.Length, selfMax);
+            Guard.HasSizeLessThanOrEqualTo(self, selfMax);
 
             var thatMin = self.Length * sizeof(uint);
-            Guard.IsGreaterThanOrEqualTo(that.Length, thatMin);
+            Guard.HasSizeGreaterThanOrEqualTo(that, thatMin);
 
             for (int i = 0; i < self.Length; i++)
             {
@@ -84,17 +81,13 @@ namespace GoeaLabs.Bedrock.Extensions
         }
 
         /// <summary>
-        /// Writes the content of the Span to a Span of <see cref="uint"/>(s);
+        /// Writes the content of a span of <see cref="byte"/>(s) to a span of <see cref="uint"/>(s).
         /// </summary>
         /// <remarks>
-        /// Throws <see cref="ArgumentOutOfRangeException"/>:
+        /// Throws <see cref="ArgumentException"/>:
         /// <list type="bullet">
-        /// <item>
-        /// If the length of <paramref name="self"/> is a multiple of <c>sizeof(uint)</c>.
-        /// </item>
-        /// <item>
-        /// If the length of <paramref name="that"/> is less than <c>self.Length / sizeof(uint)</c>.
-        /// </item>
+        /// <item>If the length of <paramref name="self"/> is a multiple of <c>sizeof(uint)</c>.</item>
+        /// <item>If the length of <paramref name="that"/> is less than <c>self.Length / sizeof(uint)</c>.</item>
         /// </list>
         /// </remarks>
         /// <param name="self">The span to split.</param>
@@ -104,10 +97,10 @@ namespace GoeaLabs.Bedrock.Extensions
             var quot = sizeof(uint);
 
             if (self.Length % quot > 0)
-                ThrowHelper.ThrowArgumentOutOfRangeException(
+                ThrowHelper.ThrowArgumentException(
                     nameof(self), $"Length must be a multiple of {quot}");
 
-            Guard.IsGreaterThanOrEqualTo(that.Length, self.Length / quot);
+            Guard.HasSizeGreaterThanOrEqualTo(that, self.Length / quot);
 
             for (int i = 0; i < that.Length; i++)
             {
@@ -121,17 +114,13 @@ namespace GoeaLabs.Bedrock.Extensions
         }
 
         /// <summary>
-        /// Writes the content of the Span to a Span of <see cref="ulong"/>(s);
+        /// Writes the content of a span of <see cref="uint"/>(s) to a span of <see cref="ulong"/>(s).
         /// </summary>
         /// <remarks>
-        /// Throws <see cref="ArgumentOutOfRangeException"/>:
+        /// Throws <see cref="ArgumentException"/>:
         /// <list type="bullet">
-        /// <item>
-        /// If the length of <paramref name="self"/> is not a multiple of <c>sizeof(ulong) / sizeof(uint)</c>.
-        /// </item>
-        /// <item>
-        /// If the length of <paramref name="that"/> is less than <c>self.Length / (sizeof(ulong) / sizeof(uint))</c>.
-        /// </item>
+        /// <item>If the length of <paramref name="self"/> is not a multiple of <c>sizeof(ulong) / sizeof(uint)</c>.</item>
+        /// <item>If the length of <paramref name="that"/> is less than <c>self.Length / (sizeof(ulong) / sizeof(uint))</c>.</item>
         /// </list>
         /// </remarks>
         /// <param name="self">The span to split.</param>
@@ -141,10 +130,10 @@ namespace GoeaLabs.Bedrock.Extensions
             var quot = sizeof(ulong) / sizeof(uint);
 
             if (self.Length % quot > 0)
-                ThrowHelper.ThrowArgumentOutOfRangeException(
+                ThrowHelper.ThrowArgumentException(
                     nameof(self), $"Length must be a multiple of {quot}");
 
-            Guard.IsGreaterThanOrEqualTo(that.Length, self.Length / quot);
+            Guard.HasSizeGreaterThanOrEqualTo(that, self.Length / quot);
 
             for (int i = 0; i < that.Length; i++)
             {
@@ -157,17 +146,13 @@ namespace GoeaLabs.Bedrock.Extensions
 #if NET7_0_OR_GREATER
 
         /// <summary>
-        /// Writes the content of the Span to a Span of <see cref="UInt128"/>(s);
+        /// Writes the content of a span of <see cref="uint"/>(s) to a span of <see cref="UInt128"/>(s).
         /// </summary>
         /// <remarks>
-        /// Throws <see cref="ArgumentOutOfRangeException"/>:
+        /// Throws <see cref="ArgumentException"/>:
         /// <list type="bullet">
-        /// <item>
-        /// If the length of <paramref name="self"/> is not a multiple of <c>16 / sizeof(uint)</c>.
-        /// </item>
-        /// <item>
-        /// If the length of <paramref name="that"/> is less than <c>self.Length / (16 / sizeof(uint))</c>.
-        /// </item>
+        /// <item>If the length of <paramref name="self"/> is not a multiple of <c>16 / sizeof(uint)</c>.</item>
+        /// <item>If the length of <paramref name="that"/> is less than <c>self.Length / (16 / sizeof(uint))</c>.</item>
         /// </list>
         /// </remarks>
         /// <param name="self">The span to split.</param>
@@ -177,10 +162,10 @@ namespace GoeaLabs.Bedrock.Extensions
             var quot = 16 / sizeof(uint);
 
             if (self.Length % quot > 0)
-                ThrowHelper.ThrowArgumentOutOfRangeException(
+                ThrowHelper.ThrowArgumentException(
                     nameof(self), $"Length must be a multiple of {quot}");
 
-            Guard.IsGreaterThanOrEqualTo(that.Length, self.Length / quot);
+            Guard.HasSizeGreaterThanOrEqualTo(that, self.Length / quot);
 
             for (int i = 0; i < that.Length; i++)
             {
@@ -196,22 +181,22 @@ namespace GoeaLabs.Bedrock.Extensions
 #endif
 
         /// <summary>
-        /// <b>XOR</b>s each element of <paramref name="self"/> with the element at the same 
-        /// index in <paramref name="that"/> and writes the results in <paramref name="self"/>.
+        /// <b>XOR</b>s <paramref name="self"/> with <paramref name="that"/> 
+        /// and writes the results in <paramref name="self"/>.
         /// </summary>
         /// <remarks>
-        /// Throws <see cref="ArgumentOutOfRangeException"/>:
+        /// Throws <see cref="ArgumentException"/>:
         /// <list type="bullet">
         /// <item>
         /// If <paramref name="self"/> has more elements than <paramref name="that"/>.
         /// </item>
         /// </list>
         /// </remarks>
-        /// <param name="self">The array to operate on.</param>
-        /// <param name="that">The array to XOR with.</param>
+        /// <param name="self">The span to operate on.</param>
+        /// <param name="that">The span to XOR with.</param>
         public static void XOR(this Span<byte> self, Span<byte> that)
         {
-            Guard.IsGreaterThanOrEqualTo(self.Length, that.Length);
+            Guard.HasSizeGreaterThanOrEqualTo(that, self.Length);
 
             for (int i = 0; i < self.Length; i++)
                 self[i] = (byte)(self[i] ^ that[i]);

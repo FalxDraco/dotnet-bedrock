@@ -37,7 +37,7 @@ namespace GoeaLabs.Bedrock.Tests.Extensions
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        [ExpectedException(typeof(ArgumentException))]
         public void Split_uints_to_bytes_throws_ArgumentException_if_input_too_large()
         {
             var max = int.MaxValue / sizeof(uint);
@@ -50,7 +50,7 @@ namespace GoeaLabs.Bedrock.Tests.Extensions
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        [ExpectedException(typeof(ArgumentException))]
         public void Split_uints_to_bytes_throws_ArgumentException_if_output_too_small()
         {
             Span<uint> uints = stackalloc uint[1];
@@ -71,8 +71,8 @@ namespace GoeaLabs.Bedrock.Tests.Extensions
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void Merge_bytes_to_uints_throws_ArgumentOutOfRangeException_if_incorrect_input_length()
+        [ExpectedException(typeof(ArgumentException))]
+        public void Merge_bytes_to_uints_throws_ArgumentException_if_incorrect_input_length()
         {
             Span<byte> bytes = stackalloc byte[7];
             Span<uint> uints = stackalloc uint[2];
@@ -81,8 +81,8 @@ namespace GoeaLabs.Bedrock.Tests.Extensions
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void Merge_bytes_to_uints_throws_ArgumentOutOfRangeException_if_incorrect_output_length()
+        [ExpectedException(typeof(ArgumentException))]
+        public void Merge_bytes_to_uints_throws_ArgumentException_if_incorrect_output_length()
         {
             Span<byte> bytes = stackalloc byte[8];
             Span<uint> uints = stackalloc uint[1];
@@ -107,8 +107,8 @@ namespace GoeaLabs.Bedrock.Tests.Extensions
         [TestMethod]
         [DataRow(1, 1)]
         [DataRow(3, 1)]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void Merge_uints_to_ulongs_throws_ArgumentOutOfRangeException_if_incorrect_input_length(int szSelf, int szThat)
+        [ExpectedException(typeof(ArgumentException))]
+        public void Merge_uints_to_ulongs_throws_ArgumentException_if_incorrect_input_length(int szSelf, int szThat)
         {
             Span<uint> span32 = stackalloc uint[szSelf];
             Span<ulong> span64 = stackalloc ulong[szThat];
@@ -119,8 +119,8 @@ namespace GoeaLabs.Bedrock.Tests.Extensions
         [TestMethod]
         [DataRow(4, 1)]
         [DataRow(8, 3)]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void Merge_uints_to_ulongs_throws_ArgumentOutOfRangeException_if_incorrect_output_length(int szSelf, int szThat)
+        [ExpectedException(typeof(ArgumentException))]
+        public void Merge_uints_to_ulongs_throws_ArgumentException_if_incorrect_output_length(int szSelf, int szThat)
         {
             Span<uint> span32 = stackalloc uint[szSelf];
             Span<ulong> span64 = stackalloc ulong[szThat];
@@ -153,8 +153,8 @@ namespace GoeaLabs.Bedrock.Tests.Extensions
         [TestMethod]
         [DataRow(1, 1)]
         [DataRow(5, 1)]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void Merge_uints_to_uint128s_throws_ArgumentOutOfRangeException_if_incorrect_input_length(int szSelf, int szThat)
+        [ExpectedException(typeof(ArgumentException))]
+        public void Merge_uints_to_uint128s_throws_ArgumentException_if_incorrect_input_length(int szSelf, int szThat)
         {
             Span<uint> span32 = stackalloc uint[szSelf];
             Span<UInt128> span128 = stackalloc UInt128[szThat];
@@ -165,8 +165,8 @@ namespace GoeaLabs.Bedrock.Tests.Extensions
         [TestMethod]
         [DataRow(8, 1)]
         [DataRow(16, 3)]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void Merge_uints_to_uint128s_throws_ArgumentOutOfRangeException_if_incorrect_output_length(int szSelf, int szThat)
+        [ExpectedException(typeof(ArgumentException))]
+        public void Merge_uints_to_uint128s_throws_ArgumentException_if_incorrect_output_length(int szSelf, int szThat)
         {
             Span<uint> span32 = stackalloc uint[szSelf];
             Span<UInt128> span128 = stackalloc UInt128[szThat];
@@ -176,9 +176,9 @@ namespace GoeaLabs.Bedrock.Tests.Extensions
 
 
         [TestMethod]
-        [DataRow(new byte[] { 0, 1 }, new byte[] { 0, 1, 2 })]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void UInt8span_XOR_throws_ArgumentOutOfRangeException_if_self_length_not_greater_than_that_length(byte[] self, byte[] that) 
+        [DataRow(new byte[] { 0, 1, 2 }, new byte[] { 0, 1 })]
+        [ExpectedException(typeof(ArgumentException))]
+        public void UInt8span_XOR_throws_ArgumentException_if_length_of_self_is_greater_than_length_of_that(byte[] self, byte[] that) 
             => self.AsSpan().XOR(that);
 
 
