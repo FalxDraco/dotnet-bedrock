@@ -1,4 +1,10 @@
-﻿/*
+﻿// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable LoopCanBeConvertedToQuery
+
+
+/*
    Copyright 2022, GoeaLabs
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,9 +20,9 @@
    limitations under the License.
  */
 
-using CommunityToolkit.Diagnostics;
 
-using HWRNG = System.Security.Cryptography.RandomNumberGenerator;
+using System.Security.Cryptography;
+
 
 namespace GoeaLabs.Bedrock.Extensions
 {
@@ -25,7 +31,7 @@ namespace GoeaLabs.Bedrock.Extensions
     /// </summary>
     public static class ArraysEx
     {
-        static readonly HWRNG hwRNG = HWRNG.Create();
+        private static readonly RandomNumberGenerator HwRng = RandomNumberGenerator.Create();
 
         /// <summary>
         /// Fills this array with cryptographically strong unsigned 8 bit integers.
@@ -34,8 +40,7 @@ namespace GoeaLabs.Bedrock.Extensions
         /// <returns>A reference to self.</returns>
         public static byte[] FillRandom(this byte[] self)
         {
-            hwRNG.GetBytes(self);
-
+            HwRng.GetBytes(self);
             return self;
         }
 
@@ -68,7 +73,7 @@ namespace GoeaLabs.Bedrock.Extensions
             if (self.Length != that.Length)
                 return false;
 
-            for (int i = 0; i < self.Length; i++)
+            for (var i = 0; i < self.Length; i++)
                 if (self[i] != that[i]) return false;
 
             return true;
@@ -88,7 +93,7 @@ namespace GoeaLabs.Bedrock.Extensions
             if (self.Length != that.Length)
                 return false;
 
-            for (int i = 0; i < self.Length; i++)
+            for (var i = 0; i < self.Length; i++)
                 if (self[i] != that[i]) return false;
 
             return true;

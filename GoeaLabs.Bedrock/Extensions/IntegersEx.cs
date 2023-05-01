@@ -1,4 +1,10 @@
-﻿/*
+﻿// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable LoopCanBeConvertedToQuery
+
+
+/*
    Copyright 2022, GoeaLabs
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,6 +19,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
+
 
 namespace GoeaLabs.Bedrock.Extensions
 {
@@ -117,7 +124,7 @@ namespace GoeaLabs.Bedrock.Extensions
         /// <param name="self">This byte.</param>
         /// <param name="that">The byte to XOR with.</param>
         /// <returns>The result of the XOR operation.</returns>
-        public static byte XOR(this byte self, byte that) => (byte)(self ^ that);
+        public static byte Xor(this byte self, byte that) => (byte)(self ^ that);
 
     }
 }

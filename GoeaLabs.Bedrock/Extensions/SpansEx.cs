@@ -1,4 +1,10 @@
-﻿/*
+﻿// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable LoopCanBeConvertedToQuery
+
+
+/*
    Copyright 2022, GoeaLabs
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,6 +19,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
+
 
 using CommunityToolkit.Diagnostics;
 
@@ -38,7 +45,7 @@ namespace GoeaLabs.Bedrock.Extensions
             if (self.Length != that.Length)
                 return false;
 
-            for (int i = 0; i < self.Length; i++)
+            for (var i = 0; i < self.Length; i++)
                 if (self[i] != that[i]) return false;
 
             return true;
@@ -58,25 +65,26 @@ namespace GoeaLabs.Bedrock.Extensions
         /// <param name="that">The span to write to.</param>
         public static void Split(this Span<uint> self, Span<byte> that)
         {
-            var selfMax = int.MaxValue / sizeof(uint);
+            const int selfMax = int.MaxValue / sizeof(uint);
             Guard.HasSizeLessThanOrEqualTo(self, selfMax);
 
             var thatMin = self.Length * sizeof(uint);
             Guard.HasSizeGreaterThanOrEqualTo(that, thatMin);
 
-            for (int i = 0; i < self.Length; i++)
+            for (var i = 0; i < self.Length; i++)
             {
-                self[i].Halve(out ushort n16a, out ushort n16b);
+                self[i].Halve(out var n16A, out var n16B);
                 
-                n16a.Halve(out byte n8a, out byte n8b);
-                n16b.Halve(out byte n8c, out byte n8d);
+                n16A.Halve(out var n8A, out var n8B);
+                n16B.Halve(out var n8C, out var n8D);
 
                 var spot = i * sizeof(uint);
 
-                that[spot++] = n8a;
-                that[spot++] = n8b;
-                that[spot++] = n8c;
-                that[spot++] = n8d;
+                that[spot++] = n8A;
+                that[spot++] = n8B;
+                that[spot++] = n8C;
+                // ReSharper disable once RedundantAssignment
+                that[spot++] = n8D;
             }
         }
 
@@ -94,7 +102,7 @@ namespace GoeaLabs.Bedrock.Extensions
         /// <param name="that">The span to write to.</param>
         public static void Merge(this Span<byte> self, Span<uint> that)
         {
-            var quot = sizeof(uint);
+            const int quot = sizeof(uint);
 
             if (self.Length % quot > 0)
                 ThrowHelper.ThrowArgumentException(
@@ -102,14 +110,14 @@ namespace GoeaLabs.Bedrock.Extensions
 
             Guard.HasSizeGreaterThanOrEqualTo(that, self.Length / quot);
 
-            for (int i = 0; i < that.Length; i++)
+            for (var i = 0; i < that.Length; i++)
             {
                 var spot = i * quot;
 
-                var n16a = self[spot].Merge(self[++spot]);
-                var n16b = self[++spot].Merge(self[++spot]);
+                var n16A = self[spot].Merge(self[++spot]);
+                var n16B = self[++spot].Merge(self[++spot]);
 
-                that[i] = n16a.Merge(n16b);               
+                that[i] = n16A.Merge(n16B);               
             }
         }
 
@@ -127,7 +135,7 @@ namespace GoeaLabs.Bedrock.Extensions
         /// <param name="that">The span to write to.</param>
         public static void Merge(this Span<uint> self, Span<ulong> that)
         {
-            var quot = sizeof(ulong) / sizeof(uint);
+            const int quot = sizeof(ulong) / sizeof(uint);
 
             if (self.Length % quot > 0)
                 ThrowHelper.ThrowArgumentException(
@@ -135,7 +143,7 @@ namespace GoeaLabs.Bedrock.Extensions
 
             Guard.HasSizeGreaterThanOrEqualTo(that, self.Length / quot);
 
-            for (int i = 0; i < that.Length; i++)
+            for (var i = 0; i < that.Length; i++)
             {
                 var spot = i * quot;
 
@@ -167,14 +175,14 @@ namespace GoeaLabs.Bedrock.Extensions
 
             Guard.HasSizeGreaterThanOrEqualTo(that, self.Length / quot);
 
-            for (int i = 0; i < that.Length; i++)
+            for (var i = 0; i < that.Length; i++)
             {
                 var spot = i * quot;
 
-                var n64a = self[spot].Merge(self[++spot]);
-                var n64b = self[++spot].Merge(self[++spot]);
+                var n64A = self[spot].Merge(self[++spot]);
+                var n64B = self[++spot].Merge(self[++spot]);
 
-                that[i] = n64a.Merge(n64b);
+                that[i] = n64A.Merge(n64B);
             }
         }
 
@@ -194,11 +202,11 @@ namespace GoeaLabs.Bedrock.Extensions
         /// </remarks>
         /// <param name="self">The span to operate on.</param>
         /// <param name="that">The span to XOR with.</param>
-        public static void XOR(this Span<byte> self, Span<byte> that)
+        public static void Xor(this Span<byte> self, Span<byte> that)
         {
             Guard.HasSizeGreaterThanOrEqualTo(that, self.Length);
 
-            for (int i = 0; i < self.Length; i++)
+            for (var i = 0; i < self.Length; i++)
                 self[i] = (byte)(self[i] ^ that[i]);
         }
     }

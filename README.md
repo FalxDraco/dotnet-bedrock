@@ -63,7 +63,7 @@ void Merge(this Span<uint>, Span<UInt128>);
 ```
 
 ```csharp
-void XOR(this Span<byte>, Span<byte>);
+void Xor(this Span<byte>, Span<byte>);
 ```
 
 Note that ```Split``` and ```Merge``` above are **endianness agnostic**: you will get the 
@@ -109,33 +109,7 @@ UInt128 Merge(this ulong, ulong);
 ```
 
 ```csharp
-byte XOR(this byte, byte);
-```
-
-- Integers scaling to arbitrary ranges:
-
-```csharp
-ulong ScaleUnsigned64(ulong, ulong, ulong, ulong, ulong);
-```
-
-```csharp
-long ScaleSigned64(long, long, long, long, long);
-```
-
-```csharp
-BigInteger ScaleBigInt(BigInteger, BigInteger, BigInteger, BigInteger, BigInteger);
-```
-
-```csharp
-#if NET7_0_OR_GREATER
-UInt128 ScaleUnsigned128(UInt128, UInt128, UInt128, UInt128, UInt128);
-#endif
-```
-
-```csharp
-#if NET7_0_OR_GREATER
-Int128 ScaleSigned128(Int128, Int128, Int128, Int128, Int128);
-#endif
+byte Xor(this byte, byte);
 ```
 
 ## Installation
