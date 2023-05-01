@@ -1,4 +1,8 @@
-﻿/*
+﻿// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+
+
+/*
    Copyright 2022, GoeaLabs
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,8 +33,8 @@ namespace GoeaLabs.Bedrock.Tests.Extensions
         [DataRow((ushort)0xFFFF, (byte)0xFF, (byte)0xFF)]
         public void Halve_UInt16_behaves_correctly(ushort src, byte ok1, byte ok2)
         {
-            src.Halve(out byte left, out byte right);
-
+            src.Halve(out var left, out var right);
+            
             Assert.IsTrue(left == ok1 && right == ok2);
         }
 
@@ -38,7 +42,7 @@ namespace GoeaLabs.Bedrock.Tests.Extensions
         [DataRow(0xFFFFFFFF, (ushort)0xFFFF, (ushort)0xFFFF)]
         public void Halve_UInt32_behaves_correctly(uint src, ushort ok1, ushort ok2)
         {
-            src.Halve(out ushort left, out ushort right);
+            src.Halve(out var left, out var right);
 
             Assert.IsTrue(left == ok1 && right == ok2);
         }
@@ -47,7 +51,7 @@ namespace GoeaLabs.Bedrock.Tests.Extensions
         [DataRow(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF)]
         public void Halve_UInt64_behaves_correctly(ulong src, uint ok1, uint ok2)
         {
-            src.Halve(out uint left, out uint right);
+            src.Halve(out var left, out var right);
 
             Assert.IsTrue(left == ok1 && right == ok2);
         }
@@ -56,30 +60,35 @@ namespace GoeaLabs.Bedrock.Tests.Extensions
         [DataRow(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF)]
         public void Halve_UInt128_behaves_correctly(ulong ok1, ulong ok2)
         {
-            UInt128.MaxValue.Halve(out ulong left, out ulong right);
+            UInt128.MaxValue.Halve(out var left, out var right);
 
             Assert.IsTrue(left == ok1 && right == ok2);
         }
 
         [TestMethod]
         [DataRow((byte)0xFF, (byte)0xFF, (ushort)0xFFFF)]
-        public void Merge_UInt8_behaves_correctly(byte self, byte that, ushort good) => Assert.IsTrue(self.Merge(that) == good);
+        public void Merge_UInt8_behaves_correctly(byte self, byte that, ushort good) 
+            => Assert.IsTrue(self.Merge(that) == good);
 
         [TestMethod]
         [DataRow((ushort)0xFFFF, (ushort)0xFFFF, 0xFFFFFFFF)]
-        public void Merge_UInt16_behaves_correctly(ushort self, ushort that, uint good) => Assert.IsTrue(self.Merge(that) == good);
+        public void Merge_UInt16_behaves_correctly(ushort self, ushort that, uint good) 
+            => Assert.IsTrue(self.Merge(that) == good);
 
         [TestMethod]
         [DataRow(0xDEADDEAD, 0xC0DEC0DE, 0xDEADDEADC0DEC0DE)]
-        public void Merge_UInt32_behaves_correctly(uint self, uint that, ulong good) => Assert.IsTrue(self.Merge(that) == good);
+        public void Merge_UInt32_behaves_correctly(uint self, uint that, ulong good) 
+            => Assert.IsTrue(self.Merge(that) == good);
 
         [TestMethod]
         [DataRow(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF)]
-        public void Merge_UInt64_behaves_correctly(ulong self, ulong that) => Assert.IsTrue(self.Merge(that) == UInt128.MaxValue);
+        public void Merge_UInt64_behaves_correctly(ulong self, ulong that) 
+            => Assert.IsTrue(self.Merge(that) == UInt128.MaxValue);
 
 
         [TestMethod]
         [DataRow((byte)0xF, (byte)0x19, (byte)0x16)]
-        public void XOR_behaves_correctly(byte self, byte that, byte good) => Assert.IsTrue(self.XOR(that) == good);
+        public void Xor_behaves_correctly(byte self, byte that, byte good) 
+            => Assert.IsTrue(self.Xor(that) == good);
     }
 }

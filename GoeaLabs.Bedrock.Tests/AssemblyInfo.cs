@@ -1,3 +1,6 @@
+// ReSharper disable CommentTypo
+
+
 /*
    Copyright 2022, GoeaLabs
 
