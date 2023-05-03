@@ -88,7 +88,8 @@ namespace GoeaLabs.Bedrock.Extensions
         /// <param name="self">Left half.</param>
         /// <param name="that">Right half.</param>
         /// <returns>A new 16 bit unsigned integer.</returns>
-        public static ushort Merge(this byte self, byte that) => (ushort)(self << 8 | that);
+        public static ushort Merge(this byte self, byte that) => 
+            (ushort)(self << 8 | that);
 
         /// <summary>
         /// Merges two 16 bit unsigned integers.
@@ -96,7 +97,8 @@ namespace GoeaLabs.Bedrock.Extensions
         /// <param name="self">Left half.</param>
         /// <param name="that">Right half.</param>
         /// <returns>A 32 bit unsigned integer.</returns>
-        public static uint Merge(this ushort self, ushort that) => (uint)self << 16 | that;
+        public static uint Merge(this ushort self, ushort that) => 
+            (uint)self << 16 | that;
 
         /// <summary>
         /// Merges two 32 bit unsigned integers.
@@ -104,7 +106,8 @@ namespace GoeaLabs.Bedrock.Extensions
         /// <param name="self">Left half.</param>
         /// <param name="that">Right half.</param>
         /// <returns>A new 64 bit unsigned integer.</returns>
-        public static ulong Merge(this uint self, uint that) => (ulong)self << 32 | that;
+        public static ulong Merge(this uint self, uint that) => 
+            (ulong)self << 32 | that;
 
 #if NET7_0_OR_GREATER
 
@@ -114,7 +117,8 @@ namespace GoeaLabs.Bedrock.Extensions
         /// <param name="self">Left half.</param>
         /// <param name="that">Right half.</param>
         /// <returns>A new 128 bit unsigned integer.</returns>
-        public static UInt128 Merge(this ulong self, ulong that) => (UInt128)self << 64 | that;
+        public static UInt128 Merge(this ulong self, ulong that) => 
+            (UInt128)self << 64 | that;
 
 #endif
 
@@ -124,7 +128,8 @@ namespace GoeaLabs.Bedrock.Extensions
         /// <param name="self">This byte.</param>
         /// <param name="that">The byte to XOR with.</param>
         /// <returns>The result of the XOR operation.</returns>
-        public static byte Xor(this byte self, byte that) => (byte)(self ^ that);
+        public static byte Xor(this byte self, byte that) => 
+            (byte)(self ^ that);
 
     }
 }

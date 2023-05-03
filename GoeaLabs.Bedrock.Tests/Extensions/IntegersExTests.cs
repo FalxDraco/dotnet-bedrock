@@ -67,23 +67,23 @@ namespace GoeaLabs.Bedrock.Tests.Extensions
 
         [TestMethod]
         [DataRow((byte)0xFF, (byte)0xFF, (ushort)0xFFFF)]
-        public void Merge_UInt8_behaves_correctly(byte self, byte that, ushort good) 
-            => Assert.IsTrue(self.Merge(that) == good);
+        public void Merge_UInt8_behaves_correctly(byte self, byte that, ushort good) => 
+            Assert.IsTrue(self.Merge(that) == good);
 
         [TestMethod]
         [DataRow((ushort)0xFFFF, (ushort)0xFFFF, 0xFFFFFFFF)]
-        public void Merge_UInt16_behaves_correctly(ushort self, ushort that, uint good) 
-            => Assert.IsTrue(self.Merge(that) == good);
+        public void Merge_UInt16_behaves_correctly(ushort self, ushort that, uint good) => 
+            Assert.IsTrue(self.Merge(that) == good);
 
         [TestMethod]
         [DataRow(0xDEADDEAD, 0xC0DEC0DE, 0xDEADDEADC0DEC0DE)]
-        public void Merge_UInt32_behaves_correctly(uint self, uint that, ulong good) 
-            => Assert.IsTrue(self.Merge(that) == good);
+        public void Merge_UInt32_behaves_correctly(uint self, uint that, ulong good) => 
+            Assert.IsTrue(self.Merge(that) == good);
 
         [TestMethod]
         [DataRow(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF)]
-        public void Merge_UInt64_behaves_correctly(ulong self, ulong that) 
-            => Assert.IsTrue(self.Merge(that) == UInt128.MaxValue);
+        public void Merge_UInt64_behaves_correctly(ulong self, ulong that) => 
+            Assert.IsTrue(self.Merge(that) == UInt128.MaxValue);
 
 
         [TestMethod]

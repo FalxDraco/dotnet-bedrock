@@ -32,31 +32,21 @@ namespace GoeaLabs.Bedrock.Tests.Extensions
 
         [TestMethod]
         [DataRow(1000)]
-        public void UInt8_array_FillRandom_behaves_correctly(int count) 
-            => Assert.IsFalse(new byte[count].FillRandom().IsEmpty());
+        public void UInt8_array_FillRandom_behaves_correctly(int count) => 
+            Assert.IsTrue(new byte[count].FillRandom().Any());
 
         [TestMethod]
         [DataRow(
             new byte[] { 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 },
             new byte[] { 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 })]
-        public void UInt8_array_IsEqual_returns_true_when_arrays_are_equal(byte[] self, byte[] that) 
-            => Assert.IsTrue(self.IsEqual(that));
+        public void UInt8_array_IsEqual_returns_true_when_arrays_are_equal(byte[] self, byte[] that) => 
+            Assert.IsTrue(self.SequenceEqual(that));
 
         [TestMethod]
         [DataRow(new byte[] { 10, 11 }, new byte[] { 11, 12 })]
         [DataRow(new byte[] { 0 }, new byte[] { 0, 1 })]
-        public void UInt8_array_IsEqual_returns_false_when_arrays_are_not_equal(byte[] self, byte[] that) 
-            => Assert.IsFalse(self.IsEqual(that));
-
-        [TestMethod]
-        [DataRow(new byte[] { default, default })]
-        public void UInt8_array_IsEmpty_returns_true_when_array_is_empty(byte[] self) 
-            => Assert.IsTrue(self.IsEmpty());
-
-        [TestMethod]
-        [DataRow(new byte[] { 0, 1 })]
-        public void UInt8_array_IsEmpty_returns_false_when_array_is_not_empty(byte[] self)
-            => Assert.IsFalse(self.IsEmpty());
+        public void UInt8_array_IsEqual_returns_false_when_arrays_are_not_equal(byte[] self, byte[] that) => 
+            Assert.IsFalse(self.SequenceEqual(that));
 
         #endregion
 
@@ -64,19 +54,9 @@ namespace GoeaLabs.Bedrock.Tests.Extensions
 
         [TestMethod]
         [DataRow(1000)]
-        public void UInt32_array_FillRandom_behaves_correctly(int count) 
-            => Assert.IsFalse(new uint[count].FillRandom().IsEmpty());
-
-        [TestMethod]
-        [DataRow(new uint[] { default, default })]
-        public void UInt32_array_IsEmpty_returns_true_when_array_is_empty(uint[] self) 
-            => Assert.IsTrue(self.IsEmpty());
-
-        [TestMethod]
-        [DataRow(new uint[] { 0, 1 })]
-        public void UInt32_array_IsEmpty_returns_false_when_array_is_not_empty(uint[] self) 
-            => Assert.IsFalse(self.IsEmpty());
-
+        public void UInt32_array_FillRandom_behaves_correctly(int count) => 
+            Assert.IsTrue(new uint[count].FillRandom().Any());
+        
         #endregion
 
     }

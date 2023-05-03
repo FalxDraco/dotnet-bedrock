@@ -2,6 +2,7 @@
 // ReSharper disable CommentTypo
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable LoopCanBeConvertedToQuery
+// ReSharper disable ReturnTypeCanBeEnumerable.Global
 
 
 /*
@@ -57,75 +58,6 @@ namespace GoeaLabs.Bedrock.Extensions
             buff.FillRandom().AsSpan().Merge(self);
 
             return self;
-        }
-
-        /// <summary>
-        /// Performs an element-by-element equality test between this array and another array.
-        /// </summary>
-        /// <param name="self">Compared array.</param>
-        /// <param name="that">Comparand array.</param>
-        /// <returns><b>True</b> if all elements are equal, otherwise <b>False</b>.</returns>
-        public static bool IsEqual(this byte[] self, byte[] that)
-        {
-            if (ReferenceEquals(self, that))
-                return true;
-
-            if (self.Length != that.Length)
-                return false;
-
-            for (var i = 0; i < self.Length; i++)
-                if (self[i] != that[i]) return false;
-
-            return true;
-        }
-
-        /// <summary>
-        /// Performs an element-by-element equality test between this array and another array.
-        /// </summary>
-        /// <param name="self">Compared array.</param>
-        /// <param name="that">Comparand array.</param>
-        /// <returns><b>True</b> if all elements are equal, otherwise <b>False</b>.</returns>
-        public static bool IsEqual(this uint[] self, uint[] that)
-        {
-            if (ReferenceEquals(self, that))
-                return true;
-
-            if (self.Length != that.Length)
-                return false;
-
-            for (var i = 0; i < self.Length; i++)
-                if (self[i] != that[i]) return false;
-
-            return true;
-        }
-
-        /// <summary>
-        /// Checks whether all elements of this array are set to default.
-        /// </summary>
-        /// <param name="self">The array to operate on.</param>
-        /// <returns><b>True</b> if all elements are default, otherwise <b>False</b>.</returns>
-        public static bool IsEmpty(this byte[] self)
-        {
-            foreach (var item in self)
-            {
-                if (item != default)
-                    return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Checks whether all elements of this array are set to default.
-        /// </summary>
-        /// <param name="self">The array to operate on.</param>
-        /// <returns><b>True</b> if all elements are default, otherwise <b>False</b>.</returns>
-        public static bool IsEmpty(this uint[] self)
-        {
-            foreach (var item in self)
-                if (item != default) return false;
-
-            return true;
         }
     }
 }
