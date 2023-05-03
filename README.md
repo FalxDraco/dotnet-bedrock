@@ -22,27 +22,7 @@ byte[] FillRandom(this byte[]);
 uint[] FillRandom(this uint[]);
 ```
 
-```csharp
-bool IsEqual(this byte[], byte[]);
-```
-
-```csharp
-bool IsEqual(this uint[], uint[]);
-```
-
-```csharp
-bool IsEmpty(this byte[]);
-```
-
-```csharp
-bool IsEmpty(this uint[]);
-```
-
 - Span extensions:
-
-```csharp
-bool IsEqual(this Span<byte>, Span<byte>);
-```
 
 ```csharp
 void Split(this Span<uint>, Span<byte>);
@@ -50,6 +30,10 @@ void Split(this Span<uint>, Span<byte>);
 
 ```csharp
 void Merge(this Span<byte>, Span<uint>);
+```
+
+```csharp
+void Merge(this Span<byte>, Span<ulong>);
 ```
 
 ```csharp
