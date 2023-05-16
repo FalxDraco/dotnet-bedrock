@@ -32,7 +32,7 @@ namespace GoeaLabs.Bedrock.Extensions
     /// </summary>
     public static class ArraysEx
     {
-        private static readonly RandomNumberGenerator HwRng = RandomNumberGenerator.Create();
+        private static readonly RandomNumberGenerator SysRng = RandomNumberGenerator.Create();
 
         /// <summary>
         /// Fills this array with cryptographically strong unsigned 8 bit integers.
@@ -41,7 +41,7 @@ namespace GoeaLabs.Bedrock.Extensions
         /// <returns>A reference to self.</returns>
         public static byte[] FillRandom(this byte[] self)
         {
-            HwRng.GetBytes(self);
+            SysRng.GetBytes(self);
             return self;
         }
 
