@@ -22,6 +22,7 @@
 
 
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 using CommunityToolkit.Diagnostics;
 
 
@@ -34,6 +35,8 @@ namespace GoeaLabs.Bedrock.Extensions
     [SkipLocalsInit]
     public static class SpansEx
     {
+        
+        private static readonly RandomNumberGenerator SysRng = RandomNumberGenerator.Create();
         
         #region Split
         
@@ -227,6 +230,12 @@ namespace GoeaLabs.Bedrock.Extensions
             for (var i = 0; i < self.Length; i++)
                 self[i] = (byte)(self[i] ^ that[i]);
         }
+
+        /// <summary>
+        /// Fills this span with cryptographically strong unsigned 8 bit integers.
+        /// </summary>
+        /// <param name="self">The span to operate on.</param>
+        public static void FillRandom(this Span<byte> self) => SysRng.GetBytes(self);
 
         #endregion
         

@@ -50,6 +50,10 @@ void Merge(this Span<uint>, Span<UInt128>);
 void Xor(this Span<byte>, Span<byte>);
 ```
 
+```csharp
+void FillRandom(this Span<byte>);
+```
+
 Note that ```Split``` and ```Merge``` above are **endianness agnostic**: you will get the 
 same results even on **IBM System/390**, the only Big Endian platform with .NET support
 I am aware of.
