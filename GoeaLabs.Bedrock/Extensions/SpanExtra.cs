@@ -20,24 +20,18 @@
    limitations under the License.
  */
 
-
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using CommunityToolkit.Diagnostics;
 
-
 namespace GoeaLabs.Bedrock.Extensions
 {
-
     /// <summary>
     /// Extensions for unsigned integer spans.
     /// </summary>
     [SkipLocalsInit]
-    public static class SpansEx
+    public static class SpanExtra
     {
-        
-        private static readonly RandomNumberGenerator SysRng = RandomNumberGenerator.Create();
-        
         #region Split
         
         /// <summary>
@@ -139,15 +133,18 @@ namespace GoeaLabs.Bedrock.Extensions
         }
 
         /// <summary>
-        /// Writes the content of a span of <see cref="uint"/>(s) to a span of <see cref="ulong"/>(s).
+        /// Writes the content of a span of <see cref="uint"/>(s) to a span of
+        /// <see cref="ulong"/>(s).
         /// </summary>
         /// <param name="self">Source span.</param>
         /// <param name="that">Output span.</param>
         /// <exception cref="ArgumentException">
-        /// If the length of <paramref name="self"/> is not a multiple of <c>sizeof(ulong) / sizeof(uint)</c>.
+        /// If the length of <paramref name="self"/> is not a multiple of
+        /// <c>sizeof(ulong) / sizeof(uint)</c>.
         /// </exception>
         /// <exception cref="ArgumentException">
-        /// If the length of <paramref name="that"/> is not equal to <c>self.Length / (sizeof(ulong) / sizeof(uint))</c>.
+        /// If the length of <paramref name="that"/> is not equal to
+        /// <c>self.Length / (sizeof(ulong) / sizeof(uint))</c>.
         /// </exception>
         public static void Merge(this Span<uint> self, Span<ulong> that)
         {
@@ -162,7 +159,6 @@ namespace GoeaLabs.Bedrock.Extensions
             for (var i = 0; i < that.Length; i++)
             {
                 var spot = i * size;
-
                 that[i] = self[spot].Merge(self[++spot]);
             }
         }
@@ -230,14 +226,44 @@ namespace GoeaLabs.Bedrock.Extensions
             for (var i = 0; i < self.Length; i++)
                 self[i] = (byte)(self[i] ^ that[i]);
         }
-
+        
         /// <summary>
-        /// Fills this span with cryptographically strong unsigned 8 bit integers.
+        /// Fills this span with cryptographically secure <see cref="byte"/>(s).
         /// </summary>
         /// <param name="self">The span to operate on.</param>
-        public static void FillRandom(this Span<byte> self) => SysRng.GetBytes(self);
+        public static void FillRandom(this Span<byte> self) => RandomNumberGenerator.Fill(self);
 
-        #endregion
+        /// <summary>
+        /// Fills this span with cryptographically secure <see cref="uint"/>(s).
+        /// </summary>
+        /// <param name="self">The span to operate on.</param>
+        public static void FillRandom(this Span<uint> self)
+        {
+            Span<byte> buff = stackalloc byte[sizeof(uint)];
+
+            for (var i = 0; i < self.Length; i++)
+            {
+                RandomNumberGenerator.Fill(buff);
+                buff.Merge(self.Slice(i, 1));
+            }
+        }
         
+        /// <summary>
+        /// Fills this span with cryptographically secure <see cref="ulong"/>(s).
+        /// </summary>
+        /// <param name="self">The span to operate on.</param>
+        public static void FillRandom(this Span<ulong> self)
+        {
+            Span<byte> buff = stackalloc byte[sizeof(ulong)];
+
+            for (var i = 0; i < self.Length; i++)
+            {
+                RandomNumberGenerator.Fill(buff);
+                buff.Merge(self.Slice(i, 1));
+            }
+        }
+        
+        #endregion
+
     }
 }
