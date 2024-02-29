@@ -22,6 +22,10 @@ byte[] FillRandom(this byte[]);
 uint[] FillRandom(this uint[]);
 ```
 
+```csharp
+ulong[] FillRandom(this ulong[]);
+```
+
 - Span extensions:
 
 ```csharp
@@ -52,6 +56,14 @@ void Xor(this Span<byte>, Span<byte>);
 
 ```csharp
 void FillRandom(this Span<byte>);
+```
+
+```csharp
+void FillRandom(this Span<uint>);
+```
+
+```csharp
+void FillRandom(this Span<ulong>);
 ```
 
 Note that ```Split``` and ```Merge``` above are **endianness agnostic**: you will get the 

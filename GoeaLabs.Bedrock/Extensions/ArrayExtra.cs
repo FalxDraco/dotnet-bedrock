@@ -4,7 +4,6 @@
 // ReSharper disable LoopCanBeConvertedToQuery
 // ReSharper disable ReturnTypeCanBeEnumerable.Global
 
-
 /*
    Copyright 2022, GoeaLabs
 
@@ -21,42 +20,46 @@
    limitations under the License.
  */
 
-
-using System.Security.Cryptography;
-
-
 namespace GoeaLabs.Bedrock.Extensions
 {
     /// <summary>
     /// Extensions for integer arrays.
     /// </summary>
-    public static class ArraysEx
+    public static class ArrayExtra
     {
-        private static readonly RandomNumberGenerator SysRng = RandomNumberGenerator.Create();
-
         /// <summary>
-        /// Fills this array with cryptographically strong unsigned 8 bit integers.
+        /// Fills this array with cryptographically secure random
+        /// <see cref="byte"/>(s).
         /// </summary>
         /// <param name="self">The array to operate on.</param>
         /// <returns>A reference to self.</returns>
         public static byte[] FillRandom(this byte[] self)
         {
-            SysRng.GetBytes(self);
+            self.AsSpan().FillRandom();
             return self;
         }
 
         /// <summary>
-        /// Fills this array with cryptographically strong unsigned 32 bit integers.
+        /// Fills this array with cryptographically secure random
+        /// <see cref="uint"/>(s).
         /// </summary>
         /// <param name="self">The array to operate on.</param>
-        /// <returns>A reference to itself.</returns>
+        /// <returns>A reference to self.</returns>
         public static uint[] FillRandom(this uint[] self)
         {
-            var size = self.Length * sizeof(uint);
-            var buff = new byte[size];
-
-            buff.FillRandom().AsSpan().Merge(self);
-
+            self.AsSpan().FillRandom();
+            return self;
+        }
+        
+        /// <summary>
+        /// Fills this array with cryptographically secure random
+        /// <see cref="uint"/>(s).
+        /// </summary>
+        /// <param name="self">The array to operate on.</param>
+        /// <returns>A reference to self.</returns>
+        public static ulong[] FillRandom(this ulong[] self)
+        {
+            self.AsSpan().FillRandom();
             return self;
         }
     }
