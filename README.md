@@ -1,7 +1,7 @@
 ### GoeaLabs.Bedrock
 
-![GitHub](https://img.shields.io/github/license/GoeaLabs/dotnet-bedrock?style=for-the-badge)
-![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/GoeaLabs/dotnet-bedrock?include_prereleases&style=for-the-badge)
+![GitHub](https://img.shields.io/github/license/goealabs/dotnet-bedrock?style=for-the-badge)
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/goealabs/dotnet-bedrock?include_prereleases&style=for-the-badge)
 ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/GoeaLabs.Bedrock?style=for-the-badge)
 
 # Project Description
